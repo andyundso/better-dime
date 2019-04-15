@@ -9,6 +9,7 @@ import { ServiceStore } from './serviceStore';
 import { ProjectCommentStore } from './projectCommentStore';
 import { WithEfforts } from '../views/timetrack/types';
 import { compose } from '@typed/compose';
+import { ProjectLocationTrackerStore } from './projectLocationTrackerStore';
 
 export type Grouping = 'employee' | 'project' | 'service';
 type Listing = ProjectListing | ServiceListing | EmployeeListing;
@@ -29,7 +30,8 @@ export class TimetrackFilterStore {
     private projectStore: ProjectStore,
     private serviceStore: ServiceStore,
     private effortStore: EffortStore,
-    private projectCommentStore: ProjectCommentStore
+    private projectCommentStore: ProjectCommentStore,
+    private projectLocationTrackerStore: ProjectLocationTrackerStore
   ) {
     this.reset();
   }
@@ -76,6 +78,12 @@ export class TimetrackFilterStore {
     return this.projectCommentStore.projectComments.filter(c => filterIds.includes(c.project_id!));
   }
 
+  @computed
+  get locationTrackers() {
+    const filterIds = this.projectEffortFilter.projectIds;
+    return this.projectLocationTrackerStore.projectLocationTrackers.filter(l => filterIds.includes(l.project_id!));
+  }
+
   public reset() {
     this.projectEffortFilter = {
       start: moment().subtract(1, 'weeks'),
@@ -86,6 +94,7 @@ export class TimetrackFilterStore {
       showEmptyGroups: false,
       projectIds: [],
       showProjectComments: true,
+      showProjectLocationTrackers: true,
     };
 
     this.grouping = 'employee';

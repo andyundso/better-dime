@@ -1,12 +1,12 @@
 import { AbstractStore } from './abstractStore';
-import { ProjectComment, ProjectEffortFilter } from '../types';
+import { ProjectComment, ProjectEffortFilter, StoreEntitiyNames } from '../types';
 import { action, computed, observable } from 'mobx';
 import moment from 'moment';
 import { MainStore } from './mainStore';
 import { apiDateFormat } from './apiStore';
 
 export class ProjectCommentStore extends AbstractStore<ProjectComment> {
-  protected get entityName(): { singular: string; plural: string } {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'der Projektkommentar',
       plural: 'die Projektkommentare',

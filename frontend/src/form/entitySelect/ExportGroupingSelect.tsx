@@ -11,6 +11,10 @@ const options = [
     label: 'Nach Projekt-Kategorie gruppiert',
     value: 'category',
   },
+  {
+    label: 'Nach Gebiet & Arbeit gruppiert',
+    value: 'locationWorkType',
+  },
 ];
 
 export class ExportGroupingSelect extends React.Component<DimeCustomFieldProps<'project' | 'category'> & WidthToggle> {

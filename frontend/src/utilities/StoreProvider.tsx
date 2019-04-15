@@ -27,6 +27,9 @@ import { Notifier } from './notifier';
 import { IReactionDisposer, reaction } from 'mobx';
 import { GlobalSettingStore } from '../stores/globalSettingStore';
 import { EmployeeGroupStore } from '../stores/employeeGroupStore';
+import { ProjectLocationTrackerStore } from '../stores/projectLocationTrackerStore';
+import { ProjectLocationStore } from '../stores/projectLocationStore';
+import { ProjectWorkTypeStore } from '../stores/projectWorkTypeStore';
 
 export interface Props {
   history: History;
@@ -52,6 +55,9 @@ export class StoreProvider extends React.Component<Props> {
     costgroupStore: CostgroupStore;
     effortStore: EffortStore;
     projectCommentStore: ProjectCommentStore;
+    projectLocationTrackerStore: ProjectLocationTrackerStore;
+    projectLocationStore: ProjectLocationStore;
+    projectWorkTypeStore: ProjectWorkTypeStore;
     timetrackFilterStore: TimetrackFilterStore;
     peopleStore: PeopleStore;
     companyStore: CompanyStore;
@@ -92,13 +98,15 @@ export class StoreProvider extends React.Component<Props> {
     const projectStore = new ProjectStore(mainStore);
     const effortStore = new EffortStore(mainStore);
     const projectCommentStore = new ProjectCommentStore(mainStore);
+    const projectLocationTrackerStore = new ProjectLocationTrackerStore(mainStore);
     const timetrackFilterStore = new TimetrackFilterStore(
       mainStore,
       employeeStore,
       projectStore,
       serviceStore,
       effortStore,
-      projectCommentStore
+      projectCommentStore,
+      projectLocationTrackerStore
     );
 
     this.stores = {
@@ -121,6 +129,9 @@ export class StoreProvider extends React.Component<Props> {
       costgroupStore: new CostgroupStore(mainStore),
       effortStore,
       projectCommentStore,
+      projectLocationTrackerStore,
+      projectLocationStore: new ProjectLocationStore(mainStore),
+      projectWorkTypeStore: new ProjectWorkTypeStore(mainStore),
       peopleStore: new PeopleStore(mainStore),
       companyStore: new CompanyStore(mainStore),
       customerImportStore: new CustomerImportStore(mainStore),

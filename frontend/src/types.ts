@@ -284,6 +284,7 @@ export interface ProjectEffortFilter {
   showEmptyGroups: boolean;
   projectIds: number[];
   showProjectComments: boolean;
+  showProjectLocationTrackers: boolean;
 }
 
 export interface ProjectEffortListing {
@@ -319,6 +320,26 @@ export interface ProjectComment {
   deleted_at?: string;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface ProjectLocationTracker {
+  id?: number;
+  date: Moment | string;
+  project_id?: number;
+  project_location_id?: number;
+  project_work_type_id?: number;
+  project_location?: ProjectLocation;
+  project_work_type?: ProjectWorkType;
+}
+
+export interface ProjectLocation {
+  id?: number;
+  name: string;
+}
+
+export interface ProjectWorkType {
+  id?: number;
+  name: string;
 }
 
 export interface Company {
@@ -496,3 +517,8 @@ export type DimeDate = string;
 
 //tslint:disable-next-line:no-any ; If we'd type thoroughly we'd need to create a type for each models representation in a form / yup validation schema
 export type FormValues = any;
+
+export interface StoreEntitiyNames {
+  singular: string;
+  plural: string;
+}

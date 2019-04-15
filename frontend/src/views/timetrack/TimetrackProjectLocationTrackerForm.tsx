@@ -1,56 +1,55 @@
 import React from 'react';
 import { MainStore } from '../../stores/mainStore';
-import { ProjectCommentStore } from '../../stores/projectCommentStore';
+import { ProjectLocationTrackerStore } from '../../stores/projectLocationTrackerStore';
 import compose from '../../utilities/compose';
 import { inject, observer } from 'mobx-react';
 import * as yup from 'yup';
 import { FormDialog } from '../../form/FormDialog';
-import { ProjectComment } from '../../types';
+import { ProjectLocationTracker } from '../../types';
 import { ProjectSelect } from '../../form/entitySelect/ProjectSelect';
 import { DatePicker } from '../../form/fields/DatePicker';
-import { TextField } from '../../form/fields/common';
 import { TimetrackFilterStore } from '../../stores/timetrackFilterStore';
 import { dimeDate, localizeSchema, selector } from '../../utilities/validation';
 import moment from 'moment';
 import { DimeField } from '../../form/fields/formik';
+import { ProjectLocationSelect } from '../../form/entitySelect/ProjectLocationSelect';
+import { ProjectWorkTypeSelect } from '../../form/entitySelect/ProjectWorkTypeSelect';
 
 interface Props {
   onClose: () => void;
-  projectCommentStore?: ProjectCommentStore;
+  projectLocationTrackerStore?: ProjectLocationTrackerStore;
   mainStore?: MainStore;
   timetrackFilterStore?: TimetrackFilterStore;
 }
 
 const schema = localizeSchema(() =>
   yup.object({
-    comment: yup.string().required(),
     date: dimeDate(),
     project_id: selector(),
+    project_location_id: selector(),
+    project_work_type_id: selector(),
   })
 );
 
 @compose(
-  inject('projectCommentStore', 'timetrackFilterStore', 'mainStore'),
+  inject('projectLocationTrackerStore', 'timetrackFilterStore', 'mainStore'),
   observer
 )
-export class TimetrackCommentFormDialog extends React.Component<Props> {
-  public handleSubmit = async (entity: ProjectComment) => {
-    const projectCommentStore = this.props.projectCommentStore!;
-
-    entity = { ...projectCommentStore.projectCommentTemplate, ...schema.cast(entity) };
-
-    if (projectCommentStore.entity) {
-      await projectCommentStore.put(entity);
+export class TimetrackProjectLocationTrackerForm extends React.Component<Props> {
+  public handleSubmit = async (entity: ProjectLocationTracker) => {
+    const projectLocationTrackerStore = this.props.projectLocationTrackerStore!;
+    if (projectLocationTrackerStore.entity) {
+      await projectLocationTrackerStore.put(schema.cast(entity));
     } else {
-      await projectCommentStore.post(entity);
+      await projectLocationTrackerStore.post(schema.cast(entity));
       await this.widenFilterSettings(entity);
     }
-    await projectCommentStore.fetchFiltered(this.props.timetrackFilterStore!.filter);
-    projectCommentStore.editing = false;
+    await projectLocationTrackerStore.fetchFiltered(this.props.timetrackFilterStore!.filter);
+    projectLocationTrackerStore.editing = false;
   };
 
   //widen the filter so the newly added entities are displayed
-  private widenFilterSettings = async (entity: ProjectComment) => {
+  private widenFilterSettings = async (entity: ProjectLocationTracker) => {
     const filter = this.props.timetrackFilterStore!.filter;
 
     this.props.timetrackFilterStore!.grouping = 'project';
@@ -61,16 +60,16 @@ export class TimetrackCommentFormDialog extends React.Component<Props> {
       filter.projectIds = Array.from(allIds.values());
     }
 
-    const commentDate = moment(entity.date);
+    const trackerDate = moment(entity.date);
     const filterEnd = moment(filter.end);
     const filterStart = moment(filter.start);
 
-    if (commentDate.isAfter(filterEnd)) {
-      filter.end = commentDate.clone();
+    if (trackerDate.isAfter(filterEnd)) {
+      filter.end = trackerDate.clone();
     }
 
-    if (commentDate.isBefore(filterStart)) {
-      filter.start = commentDate.clone();
+    if (trackerDate.isBefore(filterStart)) {
+      filter.start = trackerDate.clone();
     }
   };
 
@@ -80,14 +79,18 @@ export class TimetrackCommentFormDialog extends React.Component<Props> {
         open
         onClose={this.props.onClose}
         title={'Projekt-Kommentar erfassen'}
-        initialValues={this.props.projectCommentStore!.projectComment || this.props.projectCommentStore!.projectCommentTemplate!}
+        initialValues={
+          this.props.projectLocationTrackerStore!.projectLocationTracker ||
+          this.props.projectLocationTrackerStore!.projectLocationTrackerTemplate!
+        }
         validationSchema={schema}
         onSubmit={this.handleSubmit}
         render={() => (
           <>
             <DimeField component={DatePicker} name={'date'} label={'Datum'} />
             <DimeField component={ProjectSelect} name={'project_id'} label={'Projekt'} />
-            <DimeField component={TextField} name={'comment'} label={'Kommentar'} multiline rowsMax={6} />
+            <DimeField component={ProjectLocationSelect} name={'project_location_id'} label={'Projekt Gebiet'} />
+            <DimeField component={ProjectWorkTypeSelect} name={'project_work_type_id'} label={'Projekt Arbeit'} />
           </>
         )}
       />

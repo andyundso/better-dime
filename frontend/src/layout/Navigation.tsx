@@ -14,6 +14,8 @@ import {
   PersonIcon,
   ProjectCategoryIcon,
   ProjectIcon,
+  ProjectLocationIcon,
+  ProjectWorkTypeIcon,
   RateGroupIcon,
   RateUnitIcon,
   ReportIcon,
@@ -59,6 +61,8 @@ export const Navigation = ({ drawerOpen, handleDrawerOpen, isAdmin }: Navigation
       {isAdmin && <NavItem nested to={'/employee_groups'} label={'Mitarbeiter-Gruppen'} icon={EmployeeIcon} />}
       <NavItem nested to={'/holidays'} label={'Feiertage'} icon={HolidayIcon} />
       <NavItem nested to={'/project_categories'} label={'Tätigkeitsbereiche'} icon={ProjectCategoryIcon} />
+      <NavItem nested to={'/project_locations'} label={'Projektgebiete'} icon={ProjectLocationIcon} />
+      <NavItem nested to={'/project_work_types'} label={'Projektarbeiten'} icon={ProjectWorkTypeIcon} />
       {isAdmin && <NavItem nested to={'/global_settings'} label={'Einstellungen'} icon={SettingsIcon} />}
     </Collapsible>
   </>

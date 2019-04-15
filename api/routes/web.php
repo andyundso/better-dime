@@ -144,6 +144,30 @@ $router->group(['namespace' => 'api', 'prefix' => 'api'], function () use ($rout
                 $router->put('/{id}', ['uses' => 'ProjectCommentController@put']);
             });
 
+            $router->group(['prefix' => 'project_location_trackers'], function () use ($router) {
+                $router->delete('/{id}', ['uses' => 'ProjectLocationTrackerController@delete']);
+                $router->get('/', ['uses' => 'ProjectLocationTrackerController@index']);
+                $router->get('/{id}', ['uses' => 'ProjectLocationTrackerController@get']);
+                $router->post('/', ['uses' => 'ProjectLocationTrackerController@post']);
+                $router->put('/{id}', ['uses' => 'ProjectLocationTrackerController@put']);
+            });
+
+            $router->group(['prefix' => 'project_locations'], function () use ($router) {
+                $router->delete('/{id}', ['uses' => 'ProjectLocationController@delete']);
+                $router->get('/', ['uses' => 'ProjectLocationController@index']);
+                $router->get('/{id}', ['uses' => 'ProjectLocationController@get']);
+                $router->post('/', ['uses' => 'ProjectLocationController@post']);
+                $router->put('/{id}', ['uses' => 'ProjectLocationController@put']);
+            });
+
+            $router->group(['prefix' => 'project_work_types'], function () use ($router) {
+                $router->delete('/{id}', ['uses' => 'ProjectWorkTypeController@delete']);
+                $router->get('/', ['uses' => 'ProjectWorkTypeController@index']);
+                $router->get('/{id}', ['uses' => 'ProjectWorkTypeController@get']);
+                $router->post('/', ['uses' => 'ProjectWorkTypeController@post']);
+                $router->put('/{id}', ['uses' => 'ProjectWorkTypeController@put']);
+            });
+
             $router->group(['prefix' => 'project_efforts'], function () use ($router) {
                 $router->put('/move', ['uses' => 'ProjectEffortController@moveEfforts']);
                 $router->delete('/{id}', ['uses' => 'ProjectEffortController@delete']);

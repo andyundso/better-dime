@@ -1,10 +1,10 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { Holiday } from '../types';
+import { Holiday, StoreEntitiyNames } from '../types';
 
 export class HolidayStore extends AbstractStore<Holiday> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Der Feiertag',
       plural: 'Die Feiertage',

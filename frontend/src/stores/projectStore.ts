@@ -1,5 +1,5 @@
 import { computed, observable } from 'mobx';
-import { Invoice, Project, ProjectListing } from '../types';
+import { Invoice, Project, ProjectListing, StoreEntitiyNames } from '../types';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
 
@@ -12,7 +12,7 @@ export interface ProjectWithPotentialInvoices {
 }
 
 export class ProjectStore extends AbstractStore<Project, ProjectListing> {
-  protected get entityName(): { singular: string; plural: string } {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Das Projekt',
       plural: 'Die Projekte',

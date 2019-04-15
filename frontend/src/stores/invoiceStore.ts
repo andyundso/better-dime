@@ -1,10 +1,10 @@
 import { computed, observable } from 'mobx';
-import { Invoice, InvoiceListing } from '../types';
+import { Invoice, InvoiceListing, StoreEntitiyNames } from '../types';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
 
 export class InvoiceStore extends AbstractStore<Invoice, InvoiceListing> {
-  protected get entityName(): { singular: string; plural: string } {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'die Rechnung',
       plural: 'die Rechnungen',

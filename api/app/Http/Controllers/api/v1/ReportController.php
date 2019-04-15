@@ -8,9 +8,11 @@ use App\Models\Employee\Employee;
 use App\Models\Invoice\Invoice;
 use App\Models\Project\Project;
 use App\Models\Project\ProjectEffort;
+use App\Models\Project\ProjectLocationTracker;
 use App\Services\Export\CostgroupReport;
 use App\Services\Export\RevenueReport;
 use App\Services\Export\ServiceHoursPerCategoryReport;
+use App\Services\Export\ServiceHoursPerProjectLocationWorkTypeReport;
 use App\Services\Export\ServiceHoursPerProjectReport;
 use App\Services\Filter\DailyEfforts;
 use App\Services\Filter\ProjectCommentFilter;
@@ -85,7 +87,7 @@ class ReportController extends BaseController
     {
         $validatedData = $this->validate($request, [
             'end' => 'required|date',
-            'group_by' => ['required', Rule::in(['project', 'category'])],
+            'group_by' => ['required', Rule::in(['project', 'category', 'locationWorkType'])],
             'start' => 'required|date'
         ]);
 
@@ -97,6 +99,15 @@ class ReportController extends BaseController
             return Excel::download(new ServiceHoursPerProjectReport($effortForTimerange), 'service_rapport_per_project.xlsx');
         } elseif ($validatedData['group_by'] == 'category') {
             return Excel::download(new ServiceHoursPerCategoryReport($effortForTimerange), 'service_rapport_per_category.xlsx');
+        } elseif ($validatedData['group_by'] == 'locationWorkType') {
+            $effortForTimerange = ProjectEffort::with('position', 'position.project', 'position.project.category', 'position.service', 'position.rate_unit')
+                ->whereBetween('date', [$validatedData['start'], $validatedData['end']])
+                ->whereHas('position.project.locationTrackers', function ($query) use ($validatedData) {
+                    return $query->whereBetween('date', [$validatedData['start'], $validatedData['end']]);
+                })->get();
+
+
+            return Excel::download(new ServiceHoursPerProjectLocationWorkTypeReport($effortForTimerange), 'service_rapport_per_location_work_type.xlsx');
         } else {
             return null;
         }

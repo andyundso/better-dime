@@ -1,5 +1,5 @@
 import { AbstractStore } from './abstractStore';
-import { Project, ProjectEffort, ProjectEffortFilter, ProjectEffortListing, ProjectEffortTemplate } from '../types';
+import { Project, ProjectEffort, ProjectEffortFilter, ProjectEffortListing, ProjectEffortTemplate, StoreEntitiyNames } from '../types';
 import { action, computed, observable } from 'mobx';
 import moment from 'moment';
 import { MainStore } from './mainStore';
@@ -44,7 +44,7 @@ export class EffortStore extends AbstractStore<ProjectEffort> {
     this.effort = effort;
   }
 
-  protected get entityName(): { singular: string; plural: string } {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'die Leistung',
       plural: 'die Leistungen',

@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { EmployeeGroup } from '../types';
+import { EmployeeGroup, StoreEntitiyNames } from '../types';
 
 export class EmployeeGroupStore extends AbstractStore<EmployeeGroup> {
   @observable
@@ -9,7 +9,7 @@ export class EmployeeGroupStore extends AbstractStore<EmployeeGroup> {
   @observable
   public employeeGroup?: EmployeeGroup = undefined;
 
-  protected get employeeName(): { singular: string; plural: string } {
+  protected get employeeName(): StoreEntitiyNames {
     return {
       singular: 'Die Mitarbeiter-Gruppe',
       plural: 'Die Mitarbeiter-Gruppen',

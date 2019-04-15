@@ -16,16 +16,18 @@ import { EffortStore } from '../../stores/effortStore';
 import { ProjectCommentStore } from '../../stores/projectCommentStore';
 import { TimetrackExpansionPanel } from './TimetrackExpansionPanel';
 import { DateSpanPicker } from '../reports/DateSpanPicker';
+import { ProjectLocationTrackerStore } from '../../stores/projectLocationTrackerStore';
 
 interface Props {
   effortStore?: EffortStore;
   employeeStore?: EmployeeStore;
   projectCommentStore?: ProjectCommentStore;
   timetrackFilterStore?: TimetrackFilterStore;
+  projectLocationTrackerStore?: ProjectLocationTrackerStore;
 }
 
 @compose(
-  inject('effortStore', 'employeeStore', 'projectCommentStore', 'timetrackFilterStore'),
+  inject('effortStore', 'employeeStore', 'projectCommentStore', 'timetrackFilterStore', 'projectLocationTrackerStore'),
   observer
 )
 export class TimetrackFilterForm extends React.Component<Props> {
@@ -33,6 +35,7 @@ export class TimetrackFilterForm extends React.Component<Props> {
     const filter = this.props.timetrackFilterStore!.filter;
     this.props.effortStore!.fetchFiltered(filter);
     this.props.projectCommentStore!.fetchFiltered(filter);
+    this.props.projectLocationTrackerStore!.fetchFiltered(filter);
   };
 
   public changeGroupBy = (event: ChangeEvent, value: Grouping) => {

@@ -74,6 +74,11 @@ class Project extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function locationTrackers()
+    {
+        return $this->hasMany(ProjectLocationTracker::class);
+    }
+
     public function offer()
     {
         return $this->belongsTo(Offer::class);

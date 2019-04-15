@@ -1,7 +1,7 @@
 import { computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { Service } from '../types';
+import { Service, StoreEntitiyNames } from '../types';
 import { ServiceListing } from '../types';
 
 export interface GlobalSettings {
@@ -21,7 +21,7 @@ export interface GlobalSettings {
 }
 
 export class GlobalSettingStore extends AbstractStore<GlobalSettings> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Die Einstellungen', // that's correct, we're saving the whole set of settigns (which is one entity)
       plural: 'Die Einstellungen',

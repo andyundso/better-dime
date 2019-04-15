@@ -1,11 +1,11 @@
 import { computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { Service } from '../types';
+import { Service, StoreEntitiyNames } from '../types';
 import { ServiceListing } from '../types';
 
 export class ServiceStore extends AbstractStore<Service, ServiceListing> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Der Service',
       plural: 'Die Services',

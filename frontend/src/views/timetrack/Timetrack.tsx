@@ -14,26 +14,38 @@ import { ProjectEffortListing } from '../../types';
 import { ProjectCommentStore } from '../../stores/projectCommentStore';
 import { TimetrackCommentFormDialog } from './TimetrackCommentFormDialog';
 import { TimetrackFilterStore } from '../../stores/timetrackFilterStore';
-import { AddCommentIcon, AddEffortIcon, LogoIcon } from '../../layout/icons';
+import { AddCommentIcon, AddEffortIcon, AddLocationIcon, LogoIcon } from '../../layout/icons';
 import { DimeContent } from '../../layout/DimeContent';
 import { Button } from '@material-ui/core';
 import { EmployeeStore } from '../../stores/employeeStore';
 import { ProjectStore } from '../../stores/projectStore';
 import { ServiceStore } from '../../stores/serviceStore';
 import { RateUnitStore } from '../../stores/rateUnitStore';
+import { ProjectLocationTrackerStore } from '../../stores/projectLocationTrackerStore';
+import { TimetrackProjectLocationTrackerForm } from './TimetrackProjectLocationTrackerForm';
 
 interface Props {
   effortStore?: EffortStore;
   employeeStore?: EmployeeStore;
   projectStore?: ProjectStore;
   projectCommentStore?: ProjectCommentStore;
+  projectLocationTrackerStore?: ProjectLocationTrackerStore;
   rateUnitStore?: RateUnitStore;
   serviceStore?: ServiceStore;
   timetrackFilterStore?: TimetrackFilterStore;
 }
 
 @compose(
-  inject('effortStore', 'employeeStore', 'projectStore', 'projectCommentStore', 'rateUnitStore', 'serviceStore', 'timetrackFilterStore'),
+  inject(
+    'effortStore',
+    'employeeStore',
+    'projectStore',
+    'projectCommentStore',
+    'projectLocationTrackerStore',
+    'rateUnitStore',
+    'serviceStore',
+    'timetrackFilterStore'
+  ),
   observer
 )
 export default class Timetrack extends React.Component<Props> {
@@ -49,6 +61,7 @@ export default class Timetrack extends React.Component<Props> {
       this.props.employeeStore!.fetchAll(),
       this.props.projectStore!.fetchAll(),
       this.props.projectCommentStore!.fetchFiltered(filter),
+      this.props.projectLocationTrackerStore!.fetchFiltered(filter),
       this.props.rateUnitStore!.fetchAll(),
       this.props.serviceStore!.fetchAll(),
     ]).then(() => this.setState({ loading: false }));
@@ -64,7 +77,13 @@ export default class Timetrack extends React.Component<Props> {
     this.props.projectCommentStore!.editing = true;
   };
 
+  public handleLocationTrackerAdd = () => {
+    this.props.projectLocationTrackerStore!.projectLocationTracker = undefined;
+    this.props.projectLocationTrackerStore!.editing = true;
+  };
+
   public handleClose = () => {
+    this.props.projectLocationTrackerStore!.editing = false;
     this.props.projectCommentStore!.editing = false;
     this.props.effortStore!.editing = false;
   };
@@ -130,6 +149,7 @@ export default class Timetrack extends React.Component<Props> {
     return (
       <>
         <DimeAppBar title={'Zeiterfassung'}>
+          <DimeAppBarButton icon={AddLocationIcon} title={'Gebiet erfassen'} action={this.handleLocationTrackerAdd} />
           <DimeAppBarButton icon={AddCommentIcon} title={'Kommentar erfassen'} action={this.handleCommentAdd} />
           <DimeAppBarButton icon={AddEffortIcon} title={'Leistung erfassen'} action={this.handleEffortAdd} />
         </DimeAppBar>
@@ -144,6 +164,7 @@ export default class Timetrack extends React.Component<Props> {
 
           {this.props.effortStore!.editing && <TimetrackFormDialog onClose={this.handleClose} />}
           {this.props.projectCommentStore!.editing && <TimetrackCommentFormDialog onClose={this.handleClose} />}
+          {this.props.projectLocationTrackerStore!.editing && <TimetrackProjectLocationTrackerForm onClose={this.handleClose} />}
         </DimeContent>
       </>
     );

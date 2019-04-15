@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { Person } from 'src/types';
+import { Person, StoreEntitiyNames } from 'src/types';
 
 export class PeopleStore extends AbstractStore<Person> {
   @observable
@@ -9,7 +9,7 @@ export class PeopleStore extends AbstractStore<Person> {
   @observable
   public person?: Person = undefined;
 
-  protected get entityName(): { singular: string; plural: string } {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Der Kunde',
       plural: 'Die Kunden',

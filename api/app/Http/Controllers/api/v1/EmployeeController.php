@@ -127,7 +127,7 @@ class EmployeeController extends BaseController
         $this->validate($request, [
             'archived' => 'boolean',
             'can_login' => 'boolean',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:employees',
             'first_name' => 'required|string',
             'holidays_per_year' => 'integer|nullable',
             'is_admin' => 'boolean',

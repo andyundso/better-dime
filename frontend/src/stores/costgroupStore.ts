@@ -1,10 +1,10 @@
 import { computed, observable, action } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { Costgroup } from '../types';
+import { Costgroup, StoreEntitiyNames } from '../types';
 
 export class CostgroupStore extends AbstractStore<Costgroup> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Die Kostenstelle',
       plural: 'Die Kostenstellen',

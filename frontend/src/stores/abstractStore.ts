@@ -2,6 +2,7 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AxiosResponse } from 'axios';
+import { StoreEntitiyNames } from '../types';
 
 /**
  * This class wraps all common store functions with success/error popups. The desired methods that start with "do" should be overriden in the specific stores.
@@ -13,7 +14,7 @@ export class AbstractStore<T, OverviewType = T> {
     this.searchQuery = '';
   }
 
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return { singular: 'Die Entität', plural: 'Die Entitäten' };
   }
 

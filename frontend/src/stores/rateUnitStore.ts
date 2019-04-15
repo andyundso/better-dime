@@ -1,10 +1,10 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { RateUnit } from '../types';
+import { RateUnit, StoreEntitiyNames } from '../types';
 
 export class RateUnitStore extends AbstractStore<RateUnit> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Der Tarif-Typ',
       plural: 'Die Tarif-Typen',

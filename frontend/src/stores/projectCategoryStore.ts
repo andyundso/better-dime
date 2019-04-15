@@ -1,10 +1,10 @@
 import { action, computed, observable } from 'mobx';
 import { MainStore } from './mainStore';
 import { AbstractStore } from './abstractStore';
-import { ProjectCategory } from '../types';
+import { ProjectCategory, StoreEntitiyNames } from '../types';
 
 export class ProjectCategoryStore extends AbstractStore<ProjectCategory> {
-  protected get entityName() {
+  protected get entityName(): StoreEntitiyNames {
     return {
       singular: 'Der Tätigkeitsbereich',
       plural: 'Die Tätigkeitsbereiche',

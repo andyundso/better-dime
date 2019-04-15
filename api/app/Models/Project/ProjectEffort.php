@@ -49,9 +49,4 @@ class ProjectEffort extends Model
     {
         return $this->position->service;
     }
-
-    public function project_position()
-    {
-        return $this->belongsTo(ProjectPosition::class);
-    }
 }
